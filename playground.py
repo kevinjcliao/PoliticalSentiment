@@ -19,7 +19,9 @@ urlToRequest = createNewUrl("Global Warming", "20000101", "20150411", Nyt_Api_Ke
 response_json = json.load(urllib2.urlopen(urlToRequest))
 
 for x in range(0, len(response_json["response"]["docs"])):
-    snippet = response_json["response"]["docs"][x]["snippet"]
-    print snippet
-    print(indicoio.political(snippet))
+    snippet_to_analyze = response_json["response"]["docs"][x]["lead_paragraph"]
+    if snippet_to_analyze == None: 
+        snippet_to_analyze = response_json["response"]["docs"][x]["snippet"]
+    print snippet_to_analyze
+    print(indicoio.political(snippet_to_analyze))
 
