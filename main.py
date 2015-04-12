@@ -25,13 +25,14 @@ class HomeHandler(webapp2.RequestHandler):
         self.response.out.write(template.render(template_values))
 
 class ResultsHandler(webapp2.RequestHandler):
-    def createNewUrl(self, query, begin_date, end_date, Nyt_Api_Key):
+    def createNewUrl(self, query, begin_date, end_date, Nyt_Api_Key, desired_page):
         query = query.replace(" ", "+")
         url =  "http://api.nytimes.com/svc/search/v2/articlesearch.json?"
         url += "q="             + query
         url += "&begin_date="   + begin_date
         url += "&end_date="     + end_date
         url += "&sort=oldest"
+        url += "&page="         + str(desired_page)
         url += "&api-key="      + Nyt_Api_Key
         print "Requesting data from NYT URL: " + url
         return url
@@ -49,9 +50,7 @@ class ResultsHandler(webapp2.RequestHandler):
         enddate = originalenddate[2] + originalenddate[0] + originalenddate[1]
         template_values['enddate'] = enddate
 
-        urlToRequest = self.createNewUrl(topic, startdate, enddate, Nyt_Api_Key)
-        response_json = json.load(urllib2.urlopen(urlToRequest))
-        print "Response from NYT received!"
+
 
         data = {
                 'dates':[],
@@ -60,20 +59,25 @@ class ResultsHandler(webapp2.RequestHandler):
                 'libertarian':[],
                 'green':[]
         }
+        
+        for x in range(0, 100): 
+            urlToRequest = self.createNewUrl(topic, startdate, enddate, Nyt_Api_Key, x)
+            response_json = json.load(urllib2.urlopen(urlToRequest))
+            print "Response from NYT received!"
 
-        for x in range(0, len(response_json["response"]["docs"])):
-            article_to_analyze = response_json["response"]["docs"][x]
-            data['dates'].append(str(article_to_analyze["pub_date"]))
+            for y in range(0, len(response_json["response"]["docs"])):
+                article_to_analyze = response_json["response"]["docs"][y]
+                data['dates'].append(str(article_to_analyze["pub_date"]))
 
-            snippet_to_analyze = article_to_analyze["lead_paragraph"]
-            if snippet_to_analyze == None:
-                snippet_to_analyze = response_json["response"]["docs"][x]["snippet"]
-            leanings = self.postRequest(snippet_to_analyze)
+                snippet_to_analyze = article_to_analyze["lead_paragraph"]
+                if snippet_to_analyze == None:
+                    snippet_to_analyze = response_json["response"]["docs"][y]["snippet"]
+                leanings = self.postRequest(snippet_to_analyze)
 
-            data['liberal'].append(leanings['Liberal']*100)
-            data['green'].append(leanings['Green']*100)
-            data['conservative'].append(leanings['Conservative']*100)
-            data['libertarian'].append(leanings['Libertarian']*100)
+                data['liberal'].append(leanings['Liberal']*100)
+                data['green'].append(leanings['Green']*100)
+                data['conservative'].append(leanings['Conservative']*100)
+                data['libertarian'].append(leanings['Libertarian']*100)
 
         #iterate through dates and change format
         tempdates = []
