@@ -10,7 +10,6 @@ jinja_environment = jinja2.Environment(loader=
 class HomeHandler(webapp2.RequestHandler):
     def get(self):
     	template_values = {
-            'topic' : ''
         }
 
         template = jinja_environment.get_template('views/index.html')
@@ -29,9 +28,13 @@ class ResultsHandler(webapp2.RequestHandler):
 
 	def get(self):  
 		template_values = {'topic' : self.request.get('topic'),
-		'startdate' : '',
-		'enddate' : ''
+		'enddate' : self.request.get('enddate')
 		}
+		originalstartdate = self.request.get('startdate').split('/')
+		template_values['startdate'] = originalstartdate[2] + originalstartdate[1] + originalstartdate[0]
+
+		originalenddate = self.request.get('enddate').split('/')
+		template_values['enddate'] = originalenddate[2] + originalenddate[1] + originalenddate[0]
 
 		template = jinja_environment.get_template('views/results.html')
 		self.response.out.write(template.render(template_values))
