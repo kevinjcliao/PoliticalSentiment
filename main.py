@@ -7,7 +7,7 @@ import urllib2
 import json
 import requests as r
 import ast
-from graph import TrendGraph
+#from graph import TrendGraph
 
 Nyt_Api_Key = Nyt_Api_Key = "20e826df5fe19554ac6d8d56d9708b23:2:71828824"
 indicoio.config.api_key = "ed10971412405df6de77333f9fab3033"
