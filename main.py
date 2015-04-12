@@ -31,6 +31,7 @@ class ResultsHandler(webapp2.RequestHandler):
         url += "q="             + query
         url += "&begin_date="   + begin_date
         url += "&end_date="     + end_date
+        url += "&sort=oldest"
         url += "&api-key="      + Nyt_Api_Key
         print "Requesting data from NYT URL: " + url
         return url
