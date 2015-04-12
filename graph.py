@@ -46,8 +46,10 @@ class TrendGraph:
         )
 
         self.fig = Figure(data=self.data, layout=self.layout)
+        self.plot_url = py.plot(self.fig, filename='stacked-bar', fileopt='new')
+        print self.plot_url
 
-    def getGraph(self):
-        self.plot_url = py.plot(self.fig, filename='stacked-bar')
+    def getGraphImage(self):
+        return self.plot_url + ".png"
 
 
