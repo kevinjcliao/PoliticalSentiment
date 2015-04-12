@@ -49,6 +49,10 @@ SETTINGS = Settings(files=[
 os.path.join(os.getcwd(), '.indicorc')
 ])
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 48815cc8beb23da9c8f7c7db938f357693e26835
 api_key = SETTINGS.api_key()
 cloud = SETTINGS.cloud()
 PUBLIC_API_HOST = 'apiv2.indico.io'

@@ -81,8 +81,8 @@ class ResultsHandler(webapp2.RequestHandler):
             data['conservative'].append(leanings['Conservative'])
             data['libertarian'].append(leanings['Libertarian'])
 
-        My_Graph = graph.TrendGraph(data)
-        print My_Graph.getGraphImage()
+        #My_Graph = graph.TrendGraph(data)
+        #print My_Graph.getGraphImage()
 
     def postRequest(self, input_snippet): 
         m = r.post('http://apiv1.indico.io/political',
