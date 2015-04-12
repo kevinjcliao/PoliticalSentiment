@@ -3,6 +3,11 @@ import jinja2
 import logging
 import os
 import urllib2
+import json
+
+
+Nyt_Api_Key = Nyt_Api_Key = "20e826df5fe19554ac6d8d56d9708b23:2:71828824"
+
 
 jinja_environment = jinja2.Environment(loader=
         jinja2.FileSystemLoader(os.path.dirname(__file__)))
@@ -16,7 +21,7 @@ class HomeHandler(webapp2.RequestHandler):
         self.response.out.write(template.render(template_values))
 
 class ResultsHandler(webapp2.RequestHandler):
-    def createNewUrl(query, begin_date, end_date, Nyt_Api_Key):
+    def createNewUrl(self, query, begin_date, end_date, Nyt_Api_Key):
         query = query.replace(" ", "+")
         url =  "http://api.nytimes.com/svc/search/v2/articlesearch.json?"
         url += "q="             + query
@@ -28,7 +33,7 @@ class ResultsHandler(webapp2.RequestHandler):
 
     def get(self):  
         template_values = {
-        }
+                }
         topic = self.request.get('topic')
         template_values['topic'] = topic
         originalstartdate = self.request.get('startdate').split('/')
@@ -42,8 +47,22 @@ class ResultsHandler(webapp2.RequestHandler):
         template = jinja_environment.get_template('views/results.html')
         self.response.out.write(template.render(template_values))
 
-        print originalstartdate
-        print originalenddate
+        print startdate
+        print enddate
+        print topic
+
+        urlToRequest = self.createNewUrl(topic, startdate, enddate, Nyt_Api_Key)
+        response_json = json.load(urllib2.urlopen(urlToRequest))
+        print "Response from NYT received!"
+
+        data = {
+                'dates':[],
+                'liberal':[],
+                'conservative':[],
+                'libertarian':[],
+                'green':[]
+        }
+
 
 routes = [('/', HomeHandler),('/results', ResultsHandler)]
 app = webapp2.WSGIApplication(routes, debug=True) 
