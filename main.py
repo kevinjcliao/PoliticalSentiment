@@ -31,10 +31,12 @@ class ResultsHandler(webapp2.RequestHandler):
                 'enddate' : self.request.get('enddate')
                 }
         originalstartdate = self.request.get('startdate').split('/')
-        template_values['startdate'] = originalstartdate[2] + originalstartdate[1] + originalstartdate[0]
+        startdate = originalstartdate[2] + originalstartdate[1] + originalstartdate[0]
+        template_values['startdate'] = startdate
 
         originalenddate = self.request.get('enddate').split('/')
-        template_values['enddate'] = originalenddate[2] + originalenddate[1] + originalenddate[0]
+        enddate = originalenddate[2] + originalenddate[1] + originalenddate[0]
+        template_values['enddate'] = enddate
 
         template = jinja_environment.get_template('views/results.html')
         self.response.out.write(template.render(template_values))
