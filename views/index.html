@@ -10,7 +10,7 @@
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <link type="text/css" href="/stylesheets/agency.css" rel="stylesheet" />
-    <link rel="text/css" href="/stylesheets/bootstrap-datetimepicker.css" rel="stylesheet" />
+    <link rel="text/css" href="/stylesheets/bootstrap-datetimepicker.css" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href='http://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
@@ -45,18 +45,36 @@
         </div>
     </header>
 
+
+
+
+
+<div class="container">
+    <div class="row">
+        <div class='col-sm-6'>
+            <input type='text' class="form-control" id='datetimepicker4' />
+        </div>
+        <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker4').datetimepicker();
+            });
+        </script>
+    </div>
+</div>
+
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script src="js/bootstrap-datetimepicker.js"></script>
-    <script>
-    $('#datetimepicker1').datetimepicker({
-        format: 'yyyy mm dd'
-    });
-    $('#datetimepicker2').datetimepicker({
-        format: 'yyyy mm dd'
-    });
-    </script>
+    
+    <script type="text/javascript">
+            $('#datetimepicker1').datetimepicker({
+    format: 'YYYY-MM-DD'
+});
+            $('#datetimepicker2').datetimepicker({
+    format: 'YYYY-MM-DD'
+});
+        </script>
   </body>
 </html>
