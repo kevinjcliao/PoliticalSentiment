@@ -17,12 +17,24 @@ class HomeHandler(webapp2.RequestHandler):
         self.response.out.write(template.render(template_values))
 
 class ResultsHandler(webapp2.RequestHandler):
-  def get(self):  
-    template_values = {'topic' : self.request.get('topic')
-    }
-    
-    template = jinja_environment.get_template('views/results.html')
-    self.response.out.write(template.render(template_values))
+	def createNewUrl(query, begin_date, end_date, Nyt_Api_Key):
+	    query = query.replace(" ", "+")
+	    url =  "http://api.nytimes.com/svc/search/v2/articlesearch.json?"
+	    url += "q="             + query
+	    url += "&begin_date="   + begin_date
+	    url += "&end_date="     + end_date
+	    url += "&api-key="      + Nyt_Api_Key
+	    print "Requesting data from NYT URL: " + url
+	    return url
+
+	def get(self):  
+		template_values = {'topic' : self.request.get('topic'),
+		'startdate' : '',
+		'enddate' : ''
+		}
+
+		template = jinja_environment.get_template('views/results.html')
+		self.response.out.write(template.render(template_values))
 
 routes = [('/', HomeHandler),('/results', ResultsHandler)]
 app = webapp2.WSGIApplication(routes, debug=True) 

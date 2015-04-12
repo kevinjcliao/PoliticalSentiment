@@ -10,11 +10,8 @@
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <link type="text/css" href="/stylesheets/agency.css" rel="stylesheet" />
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <link rel="text/css" href="/stylesheets/bootstrap-datetimepicker.css" rel="stylesheet" />
     <!-- Custom Fonts -->
-    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href='http://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
@@ -31,13 +28,13 @@
               <form action="results">
                 <div class="form-group">
                   <div class="col-sm-6"><h3>Topic:</h3>
-                          <input id="topic" name="topic" type="text" class="form-control" placeholder="What kind of topic do you want to know about?">
+                      <input id="topic" name="topic" type="text" class="form-control" placeholder="What kind of topic do you want to know about?">
                   </div>
                   <div class="col-sm-3"><h3>Start Period:</h3>
-                          <input id="start" type="text" class="form-control" placeholder="When do you want to start?">
+                      <input type="datetime" class="form-control" value="2015-04-12" name="startdate" id="datetimepicker1">
                   </div>
                   <div class="col-sm-3"><h3>End Period:</h3>
-                          <input id="end" type="text" class="form-control" placeholder="When do you want to end at?">
+                      <input type="datetime" class="form-control" value="2015-04-12" name="enddate" id="datetimepicker2">
                   </div>
                   <button type="submit" class="page-scroll btn btn-xl">Submit</button>
                 </div>
@@ -52,5 +49,14 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="js/bootstrap-datetimepicker.js"></script>
+    <script>
+    $('#datetimepicker1').datetimepicker({
+        format: 'yyyy mm dd'
+    });
+    $('#datetimepicker2').datetimepicker({
+        format: 'yyyy mm dd'
+    });
+    </script>
   </body>
 </html>

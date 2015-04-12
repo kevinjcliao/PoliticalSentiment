@@ -1,7 +1,7 @@
 import indicoio
 import urllib2
 import json
-from graph import TrendGraph
+#from graph import TrendGraph
 
 indicoio.config.api_key = "ed10971412405df6de77333f9fab3033"
 Nyt_Api_Key = "20e826df5fe19554ac6d8d56d9708b23:2:71828824"
@@ -40,9 +40,10 @@ for x in range(0, len(response_json["response"]["docs"])):
     data['green'].append(leanings['Green'])
     data['conservative'].append(leanings['Conservative'])
     data['libertarian'].append(leanings['Libertarian'])
-
-My_Graph = TrendGraph(data)
-My_Graph.getGraph()
+    #print data['liberal'][x]
+    print data
+#My_Graph = TrendGraph(data)
+#My_Graph.getGraph()
 
 #sample_data = {}
 #sample_data['dates']         =    ["Year 2010", "Year 2011", "Year 2012", "Year 2013"]
