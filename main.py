@@ -1,13 +1,16 @@
+import indicoio
 import webapp2
 import jinja2
 import logging
 import os
 import urllib2
 import json
-
+import requests as r
+import ast
+from graph import TrendGraph
 
 Nyt_Api_Key = Nyt_Api_Key = "20e826df5fe19554ac6d8d56d9708b23:2:71828824"
-
+indicoio.config.api_key = "ed10971412405df6de77333f9fab3033"
 
 jinja_environment = jinja2.Environment(loader=
         jinja2.FileSystemLoader(os.path.dirname(__file__)))
@@ -62,6 +65,30 @@ class ResultsHandler(webapp2.RequestHandler):
                 'libertarian':[],
                 'green':[]
         }
+
+        for x in range(0, len(response_json["response"]["docs"])):
+            article_to_analyze = response_json["response"]["docs"][x]
+            data['dates'].append(article_to_analyze["pub_date"])
+
+            snippet_to_analyze = article_to_analyze["lead_paragraph"]
+            if snippet_to_analyze == None:
+                snippet_to_analyze = response_json["response"]["docs"][x]["snippet"]
+            #leanings = indicoio.political(snippet_to_analyze)
+            leanings = self.postRequest(snippet_to_analyze)
+
+            data['liberal'].append(leanings['Liberal'])
+            data['green'].append(leanings['Green'])
+            data['conservative'].append(leanings['Conservative'])
+            data['libertarian'].append(leanings['Libertarian'])
+
+        My_Graph = graph.TrendGraph(data)
+        print My_Graph.getGraphImage()
+
+    def postRequest(self, input_snippet): 
+        m = r.post('http://apiv1.indico.io/political',
+                    json.dumps({'data':input_snippet}))
+        u = ast.literal_eval(m.content)
+        return u['results']
 
 
 routes = [('/', HomeHandler),('/results', ResultsHandler)]

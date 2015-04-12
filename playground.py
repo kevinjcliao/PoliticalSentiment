@@ -34,12 +34,16 @@ for x in range(0, len(response_json["response"]["docs"])):
     snippet_to_analyze = article_to_analyze["lead_paragraph"]
     if snippet_to_analyze == None:
         snippet_to_analyze = response_json["response"]["docs"][x]["snippet"]
-    leanings = indicoio.political(snippet_to_analyze)
     
+    print "Before leanings"
+    leanings = indicoio.political(snippet_to_analyze)
+    print "After leanings"
+
     data['liberal'].append(leanings['Liberal'])
     data['green'].append(leanings['Green'])
     data['conservative'].append(leanings['Conservative'])
     data['libertarian'].append(leanings['Libertarian'])
+    print data['liberal'][x]
 
 My_Graph = TrendGraph(data)
 print My_Graph.getGraphImage()
