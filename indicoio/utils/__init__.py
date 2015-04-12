@@ -1,7 +1,7 @@
 import inspect, json, getpass, os
 import requests
-import numpy as np
-from skimage.transform import resize
+#import numpy as np
+#from skimage.transform import resize
 
 from indicoio import JSON_HEADERS
 from indicoio import config
@@ -80,10 +80,10 @@ class DataStructureException(Exception):
         function %s does not accept %s, accepted types are: %s
         """ % (self.callback, self.structure, str(self.accepted))
 
-
+"""
 @TypeCheck((list, dict, np.ndarray), 'array')
 def normalize(array, distribution=1, norm_range=(0, 1), **kwargs):
-    """
+
     First arg is an array, whether that's in the form of a numpy array,
     a list, or a dictionary that contains the data in its values.
 
@@ -93,7 +93,7 @@ def normalize(array, distribution=1, norm_range=(0, 1), **kwargs):
         power specified (in which case you just put a number)
 
     Third arg is the range across which you want the data normalized
-    """
+    
     # Handling dictionary array input
     # Note: lists and numpy arrays behave the same in this program
     dict_array = isinstance(array, dict)
@@ -122,13 +122,15 @@ def normalize(array, distribution=1, norm_range=(0, 1), **kwargs):
     if dict_array:
         return dict(zip(keys, norm_array))
     return norm_array
+"""
 
-
+"""
 def image_preprocess(image, batch=False):
-    """
-    Takes an image and prepares it for sending to the api including
-    resizing and image data/structure standardizing.
-    """
+"""
+   # Takes an image and prepares it for sending to the api including
+   # resizing and image data/structure standardizing.
+
+"""
     if batch:
         return [image_preprocess(img, batch=False) for img in image]
     if isinstance(image,list):
@@ -144,6 +146,7 @@ def image_preprocess(image, batch=False):
     image = resize(image,(64,64))
     image = image.tolist()
     return image
+"""
 
 
 def is_url(data, batch=False):
