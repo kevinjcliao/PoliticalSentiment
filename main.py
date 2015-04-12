@@ -27,9 +27,10 @@ class ResultsHandler(webapp2.RequestHandler):
         return url
 
     def get(self):  
-        template_values = {'topic' : self.request.get('topic'),
-                'enddate' : self.request.get('enddate')
-                }
+        template_values = {
+        }
+        topic = self.request.get('topic')
+        template_values['topic'] = topic
         originalstartdate = self.request.get('startdate').split('/')
         startdate = originalstartdate[2] + originalstartdate[1] + originalstartdate[0]
         template_values['startdate'] = startdate
