@@ -42,11 +42,11 @@ class ResultsHandler(webapp2.RequestHandler):
         topic = self.request.get('topic')
         template_values['topic'] = topic
         originalstartdate = self.request.get('startdate').split('/')
-        startdate = originalstartdate[2] + originalstartdate[1] + originalstartdate[0]
+        startdate = originalstartdate[2] + originalstartdate[0] + originalstartdate[1]
         template_values['startdate'] = startdate
 
         originalenddate = self.request.get('enddate').split('/')
-        enddate = originalenddate[2] + originalenddate[1] + originalenddate[0]
+        enddate = originalenddate[2] + originalenddate[0] + originalenddate[1]
         template_values['enddate'] = enddate
 
         urlToRequest = self.createNewUrl(topic, startdate, enddate, Nyt_Api_Key)
