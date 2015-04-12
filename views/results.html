@@ -32,18 +32,92 @@
 
   <body id="page-top" class="index">
     <header>
-      <div class="container">
-        <div class="intro-text">
-            Topic: {{topic}},
-            Start date: {{startdate}},
-            End date: {{enddate}}
-          </div>
-        </div>
-    </header>
+    <div class="container">
+        <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+            <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+            <!-- Include all compiled plugins (below), or include individual files as needed -->
+                <style type="text/css">
+        ${demo.css}
+                </style>
+                <script type="text/javascript">
+                $(function() {
+                    $('#container').highcharts({
+                        chart: {
+                            type: 'column'
+                        },
+                        title: {
+                            text: 'Political Sentiment Results'
+                        },
+                        xAxis: {
+                            categories: {{dates}}
+                        },
+                        yAxis: {
+                            min: 0,
+                            title: {
+                                text: 'WE WILL CHANGE THIS'
+                            },
+                            stackLabels: {
+                                enabled: false,
+                                style: {
+                                    fontWeight: 'bold',
+                                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                                }
+                            }
+                        },
+                        legend: {
+                            align: 'right',
+                            x: -30,
+                            verticalAlign: 'top',
+                            y: 25,
+                            floating: true,
+                            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+                            borderColor: '#CCC',
+                            borderWidth: 1,
+                            shadow: false
+                        },
+                        tooltip: {
+                            formatter: function () {
+                                return '<b>' + this.x + '</b><br/>' +
+                                    this.series.name + ': ' + this.y + '<br/>' +
+                                    'Total: ' + this.point.stackTotal;
+                            }
+                        },
+                        plotOptions: {
+                            column: {
+                                stacking: 'normal',
+                                dataLabels: {
+                                    enabled: false,
+                                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                                    style: {
+                                        textShadow: '0 0 3px black'
+                                    }
+                                }
+                            }
+                        },
+                        series: [{
+                            name: 'Liberal',
+                            data: {{liberal}}
+                        }, {
+                            name: 'Conservative',
+                            data: {{conservative}}
+                        }, {
+                            name: 'Libertarian',
+                            data: {{libertarian}}
+                        }, {
+                            name: 'Green',
+                            data: {{green}}
+                        }]
+                    });
+                });
+                </script>
+    </div>
 
+    </header>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>
   </body>
 </html>

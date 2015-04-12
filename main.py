@@ -7,6 +7,7 @@ import urllib2
 import json
 import requests as r
 import ast
+import datetime
 #from graph import TrendGraph
 
 Nyt_Api_Key = Nyt_Api_Key = "20e826df5fe19554ac6d8d56d9708b23:2:71828824"
@@ -47,13 +48,6 @@ class ResultsHandler(webapp2.RequestHandler):
         enddate = originalenddate[2] + originalenddate[1] + originalenddate[0]
         template_values['enddate'] = enddate
 
-        template = jinja_environment.get_template('views/results.html')
-        self.response.out.write(template.render(template_values))
-
-        print startdate
-        print enddate
-        print topic
-
         urlToRequest = self.createNewUrl(topic, startdate, enddate, Nyt_Api_Key)
         response_json = json.load(urllib2.urlopen(urlToRequest))
         print "Response from NYT received!"
@@ -68,21 +62,33 @@ class ResultsHandler(webapp2.RequestHandler):
 
         for x in range(0, len(response_json["response"]["docs"])):
             article_to_analyze = response_json["response"]["docs"][x]
-            data['dates'].append(article_to_analyze["pub_date"])
+            data['dates'].append(str(article_to_analyze["pub_date"]))
 
             snippet_to_analyze = article_to_analyze["lead_paragraph"]
             if snippet_to_analyze == None:
                 snippet_to_analyze = response_json["response"]["docs"][x]["snippet"]
-            #leanings = indicoio.political(snippet_to_analyze)
             leanings = self.postRequest(snippet_to_analyze)
 
-            data['liberal'].append(leanings['Liberal'])
-            data['green'].append(leanings['Green'])
-            data['conservative'].append(leanings['Conservative'])
-            data['libertarian'].append(leanings['Libertarian'])
+            data['liberal'].append(leanings['Liberal']*100)
+            data['green'].append(leanings['Green']*100)
+            data['conservative'].append(leanings['Conservative']*100)
+            data['libertarian'].append(leanings['Libertarian']*100)
 
-        #My_Graph = graph.TrendGraph(data)
-        #print My_Graph.getGraphImage()
+        #iterate through dates and change format
+        tempdates = []
+        for i in data['dates']:
+            temp = i[:10].split('-')
+            i = temp[1] + "/" + temp[2] + "/" + temp[0]
+            tempdates.append(i)
+
+        template_values['dates'] = tempdates
+        template_values['liberal'] = data['liberal']
+        template_values['conservative'] = data['conservative']
+        template_values['libertarian'] = data['libertarian']
+        template_values['green'] = data['green']
+
+        template = jinja_environment.get_template('views/results.html')
+        self.response.out.write(template.render(template_values))
 
     def postRequest(self, input_snippet): 
         m = r.post('http://apiv1.indico.io/political',
